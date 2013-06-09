@@ -1,0 +1,5 @@
+#!/bin/sh
+ifconfig pppoe0 down destroy
+sleep 3
+ifconfig pppoe0 pppoedev em1 authproto chap authname 'user' authkey 'password'
+ifconfig pppoe0 inet 0.0.0.0 0.0.0.1

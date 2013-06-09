@@ -1,0 +1,19 @@
+set user-max-session 1
+
+authentication LOCAL type local {
+          users-file "/etc/npppd/npppd-users"
+}
+
+tunnel PPPoE protocol pppoe {
+          listen on interface em1
+          authentication-method chap
+          lcp-keepalive-retry-interval 10
+}
+
+ipcp IPCP {
+          pool-address 172.16.0.2-172.16.0.254
+          dns-servers 8.8.8.8
+}
+
+interface pppx0 address 176.16.0.1 ipcp IPCP
+bind tunnel from PPPoE authenticated by LOCAL to pppx0

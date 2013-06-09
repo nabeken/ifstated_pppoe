@@ -1,0 +1,41 @@
+carp_up = "carp0.link.up && carp1.link.up"
+carp_down = "!carp0.link.up && !carp1.link.up"
+carp_sync = "carp0.link.up && carp1.link.up || \
+    !carp0.link.up && !carp1.link.up"
+
+pppoe_down = '"ifconfig pppoe0 | grep \"inet 0.0.0.0 --> 0.0.0.0\" > /dev/null" every 5'
+
+state auto {
+        if $carp_up
+                set-state primary
+        if $carp_down
+                set-state backup
+}
+
+state primary {
+        init {
+                run "ifconfig carp0 advskew 10"
+                run "ifconfig carp1 advskew 10"
+                run "/root/start-hostname.pppoe0"
+        }
+
+        if $pppoe_down {
+                run "/root/start-hostname.pppoe0"
+        }
+
+        if $carp_down {
+                set-state backup
+        }
+}
+
+state backup {
+        init {
+                run "ifconfig carp0 advskew 200"
+                run "ifconfig carp1 advskew 200"
+                run "ifconfig pppoe0 down destroy"
+        }
+
+        if $carp_up {
+                set-state primary
+        }
+}
