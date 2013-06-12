@@ -15,5 +15,5 @@ ipcp IPCP {
           dns-servers 8.8.8.8
 }
 
-interface pppx0 address 176.16.0.1 ipcp IPCP
+interface pppx0 address 172.16.0.1 ipcp IPCP
 bind tunnel from PPPoE authenticated by LOCAL to pppx0

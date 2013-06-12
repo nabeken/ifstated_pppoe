@@ -33,3 +33,7 @@ template "/etc/npppd/npppd.conf" do
   mode 0640
   source "npppd.conf.erb"
 end
+
+service "npppd" do
+  action [:enable, :start]
+end

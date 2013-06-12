@@ -1,0 +1,13 @@
+set skip on lo
+
+#
+# vars
+#
+ext_if = "pppoe0"
+dmz_if = "em2"
+
+block log       # block stateless traffic
+pass            # establish keep-state
+
+match out on $ext_if inet from $dmz_if:network nat-to ($ext_if)
+pass out on $ext_if

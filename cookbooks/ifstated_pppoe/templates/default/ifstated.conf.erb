@@ -3,7 +3,8 @@ carp_down = "!carp0.link.up && !carp1.link.up"
 carp_sync = "carp0.link.up && carp1.link.up || \
     !carp0.link.up && !carp1.link.up"
 
-pppoe_down = '"ifconfig pppoe0 | grep \"inet 0.0.0.0 --> 0.0.0.0\" > /dev/null" every 5'
+pppoe_down = "pppoe0.link.down"
+pppoe_up = "pppoe0.link.up"
 
 state auto {
         if $carp_up
@@ -37,5 +38,9 @@ state backup {
 
         if $carp_up {
                 set-state primary
+        }
+
+        if $pppoe_up {
+                run "ifconfig pppoe0 down destroy"
         }
 }

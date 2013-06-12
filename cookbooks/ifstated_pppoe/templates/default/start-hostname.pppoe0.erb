@@ -3,3 +3,5 @@ ifconfig pppoe0 down destroy
 sleep 3
 ifconfig pppoe0 pppoedev em1 authproto chap authname 'user' authkey 'password'
 ifconfig pppoe0 inet 0.0.0.0 0.0.0.1
+/sbin/route delete default
+/sbin/route add default -ifp pppoe0 0.0.0.1

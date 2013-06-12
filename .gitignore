@@ -1,2 +1,4 @@
 *.lock
 .vagrant
+.kitchen
+vendor

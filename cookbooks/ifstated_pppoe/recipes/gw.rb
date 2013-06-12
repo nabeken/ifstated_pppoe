@@ -14,12 +14,22 @@
 # limitations under the License.
 #
 
+include_recipe "openbsd::pf"
 include_recipe "openbsd::carp"
+
+template "/etc/pf.conf"
 
 sysctl "net.inet.ip.forwarding" do
   value 1
   immediately true
   comment "Permit forwarding (routing) of IPv4 packets"
+end
+
+file "/etc/hostname.pppoe0" do
+  owner "root"
+  group "wheel"
+  mode 0700
+  content 'up'
 end
 
 template "/root/start-hostname.pppoe0" do
