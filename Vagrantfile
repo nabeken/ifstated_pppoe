@@ -29,8 +29,6 @@ Vagrant.configure("2") do |config|
   """
 
   config.vm.define :pppoe do |pppoe|
-    pppoe.vm.box = "vagrant-openbsd-53c"
-    pppoe.vm.box_url = "http://projects.tsuntsun.net/~nabeken/boxes/vagrant-openbsd-53c.box"
     pppoe.vm.network :private_network, ip: "192.168.50.254"
     pppoe.vm.hostname = "pppoe.example.org"
     pppoe.vm.provision :chef_solo do |chef|
@@ -56,6 +54,8 @@ Vagrant.configure("2") do |config|
     end
     gw0.vm.network :private_network, ip: "192.168.50.2"
     gw0.vm.network :private_network, ip: "192.168.60.2"
+    gw0.vm.provision :shell, :inline => 'echo inet6 2001:db8:0:50::2/64 >> /etc/hostname.em1'
+    gw0.vm.provision :shell, :inline => 'echo inet6 2001:db8:0:60::2/64 >> /etc/hostname.em2'
   end
 
   config.vm.define :gw1 do |gw1|
@@ -73,9 +73,12 @@ Vagrant.configure("2") do |config|
     end
     gw1.vm.network :private_network, ip: "192.168.50.3"
     gw1.vm.network :private_network, ip: "192.168.60.3"
+    gw1.vm.provision :shell, :inline => 'echo inet6 2001:db8:0:50::3/64 >> /etc/hostname.em1'
+    gw1.vm.provision :shell, :inline => 'echo inet6 2001:db8:0:60::3/64 >> /etc/hostname.em2'
   end
 
   config.vm.define :server do |server|
     server.vm.network :private_network, ip: "192.168.60.20"
+    server.vm.provision :shell, :inline => 'echo inet6 2001:db8:0:60::20/64 >> /etc/hostname.em1'
   end
 end

@@ -23,7 +23,8 @@ template "/etc/hostname.carp0" do
   variables :advskew => 0,
             :vhid => 1,
             :carpdev => 'em1',
-            :inet => '192.168.50.10 255.255.255.0'
+            :inet => '192.168.50.10 255.255.255.0',
+            :inet6 => '2001:db8:0:50::10/64'
 end
 
 template "/etc/hostname.carp1" do
@@ -34,5 +35,6 @@ template "/etc/hostname.carp1" do
   variables :advskew => 0,
             :vhid => 2,
             :carpdev => 'em2',
-            :inet => '192.168.60.10 255.255.255.0'
+            :inet => '192.168.60.10 255.255.255.0',
+            :inet6 => '2001:db8:0:60::10/64'
 end
